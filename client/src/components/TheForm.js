@@ -4,11 +4,11 @@ import * as Yup from "yup";
 import axios from "axios";
 
 function TheForm({ values, errors, touched, status }) {
-  const [users, setUsers] = useState([]);
+  const [recipes, setRecipes] = useState([]);
   useEffect(() => {
     // status sometimes comes through as undefined
     if (status) {
-      setUsers([...users, status]);
+      setRecipes([...status]);
     }
   }, [status]);
   return (
@@ -30,11 +30,11 @@ function TheForm({ values, errors, touched, status }) {
         </label>
         <button type="submit">Submit</button>
       </Form>
-      <h1>Current Users</h1>
-      {users
-        ? users.map(user => (
-            <p key={user.id} className="users">
-              Name : {user.name} Role : {user.role}
+      <h1>Recipes</h1>
+      {recipes
+        ? recipes.map(recipe => (
+            <p key={Date.now() + Math.random(10000)} className="recipes">
+              Name : {recipe.name} Course : {recipe.course}
             </p>
           ))
         : null}
@@ -78,6 +78,7 @@ const FormikForm = withFormik({
       .get("http://localhost:5000/api/restricted/data")
       .then(response => {
         setStatus(response.data);
+        console.log(response.data);
       })
       .catch(function(error) {
         console.log(error);
